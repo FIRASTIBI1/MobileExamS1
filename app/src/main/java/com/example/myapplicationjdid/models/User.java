@@ -3,30 +3,28 @@ package com.example.myapplicationjdid.models;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private int id;
+    private String id; // Firebase UID
     private String name;
     private String email;
-    private String password;
-    private String role; // "teacher" ou "admin"
+    private String role; // "teacher", "admin", or "agent"
 
-    // Constructeur par défaut
+    // Default constructor required for Firestore
     public User() {}
 
-    // Constructeur avec paramètres
-    public User(int id, String name, String email, String password, String role) {
+    // Constructor with parameters
+    public User(String id, String name, String email, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.role = role;
     }
 
-    // Getters et Setters
-    public int getId() {
+    // Getters and Setters
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,14 +44,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getRole() {
         return role;
     }
@@ -62,11 +52,10 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    // Méthode toString
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +

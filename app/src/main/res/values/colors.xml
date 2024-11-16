@@ -4,6 +4,8 @@
     <color name="buttonColor">#4379F2</color>
 
     <!-- Example of existing colors -->
+    <color name="bottom_nav_selected">#6200EE</color>
+    <color name="bottom_nav_unselected">#8E8E8E</color>
 
 </resources>
 
