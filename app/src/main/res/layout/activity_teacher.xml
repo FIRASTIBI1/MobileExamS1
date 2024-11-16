@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <!-- Affichage des informations de l'enseignant -->
+    <TextView
+        android:id="@+id/textViewTeacherName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nom de l'enseignant"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/textViewTeacherSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Matière : Maths"
+        android:textSize="16sp"
+        android:padding="8dp" />
+
+    <!-- Bouton pour modifier l'enseignant -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonEditTeacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_edit"
+        android:layout_marginTop="16dp"
+        app:backgroundTint="#4379F2" />
+
+    <!-- Bouton pour supprimer l'enseignant -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonDeleteTeacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supprimer"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_delete"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="#FF0000" />
+
+</LinearLayout>

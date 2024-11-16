@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <!-- Champ pour afficher/sélectionner la date -->
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date de l'absence"
+        android:textSize="16sp"
+        android:padding="8dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sélectionner une date"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="date" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Champ pour entrer le motif de l'absence -->
+    <TextView
+        android:id="@+id/textViewMotif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Motif de l'absence"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:layout_marginTop="16dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextMotif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Entrer le motif de l'absence"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Bouton pour soumettre les informations de l'absence -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSubmitAbsence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Soumettre"
+        android:layout_marginTop="16dp"
+        app:cornerRadius="8dp"
+        app:backgroundTint="#fff" />
+
+</LinearLayout>

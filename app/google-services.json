@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "844890440440",
+    "project_id": "kaibiabsence",
+    "storage_bucket": "kaibiabsence.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844890440440:android:7458d988a62a3c105a710d",
+        "android_client_info": {
+          "package_name": "com.example.abscenceapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkW-FjedahE9Iw3qa_62g-EnMaW9xWW34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844890440440:android:81a904bca211a26e5a710d",
+        "android_client_info": {
+          "package_name": "com.example.absenceapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkW-FjedahE9Iw3qa_62g-EnMaW9xWW34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844890440440:android:0c9c71c59272f08f5a710d",
+        "android_client_info": {
+          "package_name": "com.example.myapplicationjdid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkW-FjedahE9Iw3qa_62g-EnMaW9xWW34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<resources>
+    <!-- Add this color definition -->
+    <color name="customColor">#4379F2</color>
+    <color name="buttonColor">#4379F2</color>
+
+    <!-- Example of existing colors -->
+
+</resources>
+

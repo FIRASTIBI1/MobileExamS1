@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".Home"
+    tools:ignore="ExtraText">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Absence Management"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textColor="@color/customColor"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- SearchView for searching professors -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewProfessor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:queryHint="Search for professor"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- RecyclerView for listing professors -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProfessors"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/searchViewProfessor"
+        app:layout_constraintBottom_toTopOf="@id/addAbsenceButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Button to add absence -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addAbsenceButton"
+        android:background="#F5F5DC"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add Absence"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewProfessors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:icon="@drawable/baseline_add_24"
+        app:iconGravity="textStart"
+        app:iconTint="@color/customColor"
+    app:backgroundTint="@color/customColor"
+        tools:ignore="HardcodedText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

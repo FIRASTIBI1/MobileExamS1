@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/values/arrays.xml -->
+<resources>
+    <!-- Icons array for CircleMenuView -->
+    <array name="icons">
+        <item>@drawable/home</item>
+        <item>@drawable/home</item>
+        <item>@drawable/home</item>
+        <item>@drawable/home</item>
+        <item>@drawable/home</item>
+    </array>
+
+    <!-- Colors array for CircleMenuView -->
+    <array name="colors">
+        <item>@android:color/holo_blue_light</item>
+        <item>@android:color/holo_green_light</item>
+        <item>@android:color/holo_orange_light</item>
+        <item>@android:color/holo_red_light</item>
+        <item>@android:color/holo_purple</item>
+    </array>
+</resources>
