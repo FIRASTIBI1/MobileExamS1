@@ -1,7 +1,10 @@
 package com.example.myapplicationjdid.Agent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,42 +23,44 @@ public class ViewExcelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewexcelactivity);
 
+        TableLayout tableLayout = findViewById(R.id.tableLayout);
+
         // Retrieve the Excel data (base64 decoded)
         byte[] excelData = getIntent().getByteArrayExtra("excelData");
 
-        // Try to open and display the Excel content
         if (excelData != null) {
             try {
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(excelData);
                 Workbook workbook = WorkbookFactory.create(byteArrayInputStream);
                 Sheet sheet = workbook.getSheetAt(0); // Get the first sheet
 
-                if (sheet != null) {
-                    Log.d("ViewExcelActivity", "Sheet loaded: " + sheet.getSheetName());
-                    Row row = sheet.getRow(0);
-                    if (row != null) {
-                        Cell cell = row.getCell(0); // First cell
-                        if (cell != null) {
-                            String cellValue = cell.toString();
-                            Log.d("ViewExcelActivity", "Cell Value: " + cellValue);
+                // Parse rows and cells
+                for (Row row : sheet) {
+                    TableRow tableRow = new TableRow(this);
+                    tableRow.setLayoutParams(new TableRow.LayoutParams(
+                            TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
 
-                            // Find the TextView and set the content
-                            TextView textView = findViewById(R.id.textViewExcelContent);
-                            textView.setText("Excel First Cell Value: " + cellValue);
-                        } else {
-                            Log.e("ViewExcelActivity", "Cell is null!");
-                        }
-                    } else {
-                        Log.e("ViewExcelActivity", "Row is null!");
+                    for (Cell cell : row) {
+                        TextView textView = new TextView(this);
+                        textView.setText(cell.toString());
+                        textView.setPadding(8, 8, 8, 8);
+                        textView.setBackgroundColor(Color.WHITE);
+                        textView.setTextColor(Color.BLACK);
+                        textView.setLayoutParams(new TableRow.LayoutParams(
+                                TableRow.LayoutParams.WRAP_CONTENT,
+                                TableRow.LayoutParams.WRAP_CONTENT));
+                        tableRow.addView(textView);
                     }
-                } else {
-                    Log.e("ViewExcelActivity", "Sheet is null!");
+
+                    // Add row to the TableLayout
+                    tableLayout.addView(tableRow);
                 }
+
+                workbook.close();
             } catch (IOException e) {
                 Log.e("ViewExcelActivity", "Error reading Excel file", e);
-
             }
-
         }
     }
 }
