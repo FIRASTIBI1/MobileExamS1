@@ -1,11 +1,11 @@
-package com.example.myapplicationjdid;
+package com.example.myapplicationjdid.Agent;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplicationjdid.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import android.util.Log;
 
 public class AgentActivity extends AppCompatActivity {
 
@@ -29,14 +29,10 @@ public class AgentActivity extends AppCompatActivity {
                 startActivity(dashboardIntent);
                 return true;
 
-            } else if (id == R.id.nav_notifications) {
-                // Handle notifications
-                Log.d("AgentActivity", "Notifications clicked");
-                return true;
-
             } else if (id == R.id.nav_absences) {
                 // Handle absences
-                Log.d("AgentActivity", "Absences clicked");
+                Intent absencesIntent = new Intent(AgentActivity.this, AbsenceActivity.class);
+                startActivity(absencesIntent);
                 return true;
             }
 

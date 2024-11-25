@@ -1,4 +1,4 @@
-package com.example.myapplicationjdid;
+package com.example.myapplicationjdid.Agent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,13 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplicationjdid.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Dashboard_Agent_Activity extends AppCompatActivity {
 
@@ -108,13 +112,40 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
 
     // Add absence function (for now it's empty)
     private void addAbsence() {
-        String absenceDetails = editTextAbsence.getText().toString().trim();
-        if (!absenceDetails.isEmpty()) {
-            // Here, you can implement functionality to handle the absence details
-            System.out.println("Absence Details: " + absenceDetails);
-        } else {
-            // Handle the case when no absence details are entered
-            System.out.println("Please enter absence details.");
+        // Get the absence details from the first input field
+        String teacherAddress = editTextAbsence.getText().toString().trim();
+
+        // Get the salle number from the second input field
+        TextInputEditText editTextSalle = findViewById(R.id.editTextSalle);
+        String salleNumber = editTextSalle.getText().toString().trim();
+
+        // Get today's date
+        String currentDate = java.text.DateFormat.getDateInstance().format(new java.util.Date());
+
+        // Validate input
+        if (teacherAddress.isEmpty() || salleNumber.isEmpty()) {
+            System.out.println("Please fill in all fields.");
+            return;
         }
+
+        // Create a map to hold the data
+        Map<String, Object> absenceData = new HashMap<>();
+        absenceData.put("teacherAddress", teacherAddress);
+        absenceData.put("salleNumber", salleNumber);
+        absenceData.put("date", currentDate);
+
+        // Add the data to Firestore
+        db.collection("absences")
+                .add(absenceData)
+                .addOnSuccessListener(documentReference -> {
+                    System.out.println("Absence added successfully with ID: " + documentReference.getId());
+                    // Clear the input fields
+                    editTextAbsence.setText("");
+                    editTextSalle.setText("");
+                })
+                .addOnFailureListener(e -> {
+                    System.out.println("Error adding absence: " + e.getMessage());
+                });
     }
+
 }

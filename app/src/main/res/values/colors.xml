@@ -2,6 +2,7 @@
     <!-- Add this color definition -->
     <color name="customColor">#4379F2</color>
     <color name="buttonColor">#4379F2</color>
+    <color name="blue">#0000FF</color>
 
     <!-- Example of existing colors -->
     <color name="bottom_nav_selected">#6200EE</color>

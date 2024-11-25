@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00425A"
+    android:padding="16dp">
+
+    <!-- Section des TextViews -->
+    <LinearLayout
+        android:id="@+id/infoSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textAbsenceLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Number of Absences:"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textTeacherAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Teacher Address"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textSalleNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salle Number"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+    <!-- ImageView pour l'image 'scared.png' -->
+    <ImageView
+        android:id="@+id/scaredImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-24dp"
+        android:contentDescription="Scared Icon"
+        android:src="@drawable/scraed" />
+</RelativeLayout>

@@ -2,11 +2,15 @@ package com.example.myapplicationjdid;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.myapplicationjdid.Agent.AgentActivity;
+import com.example.myapplicationjdid.Teacher.TeacherActivity;
 import com.example.myapplicationjdid.models.User;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;  // Firebase Auth instance
     private FirebaseFirestore db;  // Firestore instance
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Firebase Auth and Firestore
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyAppPreferences", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         // Find the views
         editTextUsername = findViewById(R.id.editTextUsername);
@@ -89,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                                 user.setId(userId); // Add Firebase UID to the user model
                                 Log.d("Login", "User fetched: " + user);
 
+                                // Save user details in SharedPreferences
+                                saveUserDetails(user);
+
                                 // Redirect user based on role
                                 redirectToRoleActivity(user.getRole());
                             } else {
@@ -104,7 +118,27 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void saveUserDetails(User user) {
+        if (user == null) return;
+
+        // Save the user's name, email, and role
+        editor.putString("userName", user.getName());
+        editor.putString("userEmail", mAuth.getCurrentUser().getEmail());
+        editor.putString("userRole", user.getRole());
+        editor.apply(); // Commit changes
+
+        // Log the saved details
+        Log.d("SharedPreferences", "Saved Name: " + user.getName());
+        Log.d("SharedPreferences", "Saved Email: " + mAuth.getCurrentUser().getEmail());
+        Log.d("SharedPreferences", "Saved Role: " + user.getRole());
+    }
+
     private void redirectToRoleActivity(String role) {
+        if (role == null || role.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Invalid role", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent;
         if ("Admin".equalsIgnoreCase(role)) {
             intent = new Intent(MainActivity.this, AdminActivity.class);

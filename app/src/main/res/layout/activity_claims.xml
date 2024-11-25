@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00425A"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextClaimMessage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@android:drawable/editbox_background"
+        android:gravity="top"
+        android:hint="Saisissez votre réclamation ici"
+        android:inputType="textMultiLine"
+        android:padding="10dp" />
+
+    <Button
+        android:id="@+id/buttonSubmitClaim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextClaimMessage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/buttonColor"
+        android:text="Envoyer"
+        android:textColor="#FFFFFF" />
+
+    <!-- ImageView pour afficher claims.png -->
+    <ImageView
+        android:id="@+id/imageViewClaims"
+        android:layout_width="390dp"
+        android:layout_height="394dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="-49dp"
+        android:contentDescription="Image de réclamation"
+        android:src="@drawable/claims" />
+</RelativeLayout>
