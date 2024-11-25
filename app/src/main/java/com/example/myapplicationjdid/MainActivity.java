@@ -12,12 +12,12 @@ import android.widget.Toast;
 import com.example.myapplicationjdid.Agent.AgentActivity;
 import com.example.myapplicationjdid.Teacher.TeacherActivity;
 import com.example.myapplicationjdid.models.User;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -103,6 +103,11 @@ public class MainActivity extends AppCompatActivity {
                                 // Save user details in SharedPreferences
                                 saveUserDetails(user);
 
+                                // Fetch FCM token if the user is a teacher
+                                if ("Teacher".equalsIgnoreCase(user.getRole())) {
+                                    fetchFCMToken(user.getId());
+                                }
+
                                 // Redirect user based on role
                                 redirectToRoleActivity(user.getRole());
                             } else {
@@ -153,5 +158,29 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
         finish();  // Close login activity
+    }
+
+    private void fetchFCMToken(String userId) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Retrieve the token
+                        String token = task.getResult();
+                        Log.d("FCM Token", "Token: " + token);
+
+                        // Save the token to Firestore
+                        saveFCMTokenToFirestore(userId, token);
+                    } else {
+                        Log.e("FCM Token", "Fetching FCM token failed", task.getException());
+                    }
+                });
+    }
+
+    private void saveFCMTokenToFirestore(String userId, String token) {
+        // Save the token in the user's Firestore document
+        db.collection("users").document(userId)
+                .update("fcmToken", token)
+                .addOnSuccessListener(aVoid -> Log.d("FCM Token", "Token saved successfully"))
+                .addOnFailureListener(e -> Log.e("FCM Token", "Error saving token", e));
     }
 }

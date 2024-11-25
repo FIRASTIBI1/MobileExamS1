@@ -42,6 +42,8 @@ dependencies {
     implementation ("com.google.android.material:material:1.8.0")
     implementation ("androidx.recyclerview:recyclerview:1.3.0")
     implementation("androidx.activity:activity:1.9.2")
+    implementation ("com.google.firebase:firebase-messaging:23.2.1")
+    implementation("com.android.volley:volley:1.2.1")
     implementation("com.google.firebase:firebase-firestore:25.1.1")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
 
