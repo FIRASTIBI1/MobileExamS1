@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-
+    android:layout_height="match_parent"
+    android:background="#00425A">
 
     <!-- Titre de la page -->
     <TextView
@@ -17,17 +17,32 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_margin="16dp"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- RecyclerView pour afficher les absences -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAbsences"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#00425A"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textWelcome"
+        app:layout_constraintBottom_toTopOf="@id/scaredImage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textWelcome" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp" />
+
+    <!-- Image en bas de la page -->
+    <ImageView
+        android:id="@+id/scaredImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Scared Icon"
+        android:src="@drawable/scraed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#00425A" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

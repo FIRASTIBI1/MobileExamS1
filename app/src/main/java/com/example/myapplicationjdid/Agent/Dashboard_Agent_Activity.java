@@ -123,10 +123,8 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
 
     // Add absence function (for now it's empty)
     private void addAbsence() {
-        // Get the absence details from the first input field
+        // Get the absence details from the input fields
         String teacherAddress = editTextAbsence.getText().toString().trim();
-
-        // Get the salle number from the second input field
         TextInputEditText editTextSalle = findViewById(R.id.editTextSalle);
         String salleNumber = editTextSalle.getText().toString().trim();
 
@@ -138,6 +136,10 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
             System.out.println("Please fill in all fields.");
             return;
         }
+
+        // Debugging logs
+        Log.d("InputDebug", "Teacher Address: " + teacherAddress);
+        Log.d("InputDebug", "Salle Number: " + salleNumber);
 
         // Create a map to hold the absence data
         Map<String, Object> absenceData = new HashMap<>();
@@ -162,6 +164,7 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
                     System.out.println("Error adding absence: " + e.getMessage());
                 });
     }
+    
 
     private void sendNotificationToTeacher(String teacherAddress) {
         // Create a Volley request queue
