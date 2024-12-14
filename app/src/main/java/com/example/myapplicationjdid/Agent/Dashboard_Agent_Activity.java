@@ -2,6 +2,7 @@ package com.example.myapplicationjdid.Agent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +12,7 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -95,12 +97,10 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
                     openExcelFile(base64String);
                 }
             } else {
-                // Handle the case when the salle data is not found
-                System.out.println("No such document!");
+                Log.e("FetchEmploi", "No document found for salle: " + selectedSalle);
             }
         }).addOnFailureListener(e -> {
-            // Handle errors
-            System.out.println("Error fetching document: " + e.getMessage());
+            Log.e("FetchEmploi", "Error fetching document: " + e.getMessage());
         });
     }
 
@@ -109,21 +109,19 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
         try {
             // Decode Base64 string
             byte[] decodedBytes = android.util.Base64.decode(base64String, android.util.Base64.DEFAULT);
-            Log.d("Decoded Bytes", "Length: " + decodedBytes.length);
+            Log.d("DecodedBytes", "Length: " + decodedBytes.length);
 
             // Send the byte array to ViewExcelActivity
             Intent intent = new Intent(Dashboard_Agent_Activity.this, ViewExcelActivity.class);
             intent.putExtra("excelData", decodedBytes);
             startActivity(intent);
         } catch (IllegalArgumentException e) {
-            Log.e("Base64 Error", "Failed to decode Base64 string: " + e.getMessage());
+            Log.e("Base64Error", "Failed to decode Base64 string: " + e.getMessage());
         }
     }
 
-
-    // Add absence function (for now it's empty)
+    // Add absence function
     private void addAbsence() {
-        // Get the absence details from the input fields
         String teacherAddress = editTextAbsence.getText().toString().trim();
         TextInputEditText editTextSalle = findViewById(R.id.editTextSalle);
         String salleNumber = editTextSalle.getText().toString().trim();
@@ -133,49 +131,31 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
 
         // Validate input
         if (teacherAddress.isEmpty() || salleNumber.isEmpty()) {
-            System.out.println("Please fill in all fields.");
+            Log.e("AddAbsence", "Please fill in all fields.");
             return;
         }
 
-        // Debugging logs
-        Log.d("InputDebug", "Teacher Address: " + teacherAddress);
-        Log.d("InputDebug", "Salle Number: " + salleNumber);
-
-        // Create a map to hold the absence data
         Map<String, Object> absenceData = new HashMap<>();
         absenceData.put("teacherAddress", teacherAddress);
         absenceData.put("salleNumber", salleNumber);
         absenceData.put("date", currentDate);
 
-        // Add the absence data to Firestore
         db.collection("absences")
                 .add(absenceData)
                 .addOnSuccessListener(documentReference -> {
-                    System.out.println("Absence added successfully with ID: " + documentReference.getId());
-
-                    // After adding absence, send a notification to the teacher
+                    Log.d("AddAbsence", "Absence added successfully with ID: " + documentReference.getId());
                     sendNotificationToTeacher(teacherAddress);
-
-                    // Clear the input fields
                     editTextAbsence.setText("");
                     editTextSalle.setText("");
                 })
-                .addOnFailureListener(e -> {
-                    System.out.println("Error adding absence: " + e.getMessage());
-                });
+                .addOnFailureListener(e -> Log.e("AddAbsence", "Error adding absence: " + e.getMessage()));
     }
-    
 
     private void sendNotificationToTeacher(String teacherAddress) {
-        // Create a Volley request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String serverUrl = "http://10.0.2.2:3000/send-notification";
 
-        // Set up the URL to send the notification (localhost:3000)
-        String serverUrl = "http://10.0.2.2:3000/send-notification"; // Use '10.0.2.2' for Android Emulator (localhost)
-
-        // Prepare the request payload
         JSONObject payload = new JSONObject();
-        // You'll need to retrieve the FCM token of the teacher from Firestore
         db.collection("users")
                 .whereEqualTo("name", teacherAddress)
                 .whereEqualTo("role", "Teacher")
@@ -185,38 +165,33 @@ public class Dashboard_Agent_Activity extends AppCompatActivity {
                         String fcmToken = task.getResult().getDocuments().get(0).getString("fcmToken");
 
                         if (fcmToken != null) {
-                            // Prepare the notification payload
                             try {
                                 payload.put("fcmToken", fcmToken);
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-                            try {
                                 payload.put("title", "New Absence Added");
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-                            try {
                                 payload.put("body", "An absence record has been added for you.");
                             } catch (JSONException e) {
-                                throw new RuntimeException(e);
+                                Log.e("NotificationError", "Failed to create JSON payload: " + e.getMessage());
+                                return;
                             }
 
-                            // Create a POST request with the payload
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, serverUrl, payload,
-                                    response -> {
-                                        // Handle success
-                                        System.out.println("Notification sent successfully: " + response);
-                                    },
-                                    error -> {
-                                        // Handle error
-                                        System.out.println("Error sending notification: " + error.getMessage());
-                                    });
+                                    response -> Log.d("NotificationSuccess", "Notification sent successfully: " + response),
+                                    error -> Log.e("NotificationError", "Error sending notification: " + error.getMessage()));
 
-                            // Add the request to the request queue
+                            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                                    5000,
+                                    3,
+                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                            ));
+
                             requestQueue.add(jsonObjectRequest);
                         } else {
-                            System.out.println("FCM Token not found for the teacher.");
+                            Log.e("NotificationError", "FCM Token not found for teacher: " + teacherAddress);
+                        }
+                    } else {
+                        Log.e("NotificationError", "Failed to fetch teacher's FCM token. Task success: " + task.isSuccessful());
+                        if (task.getException() != null) {
+                            Log.e("NotificationError", "Firestore exception: " + task.getException().getMessage());
                         }
                     }
                 });

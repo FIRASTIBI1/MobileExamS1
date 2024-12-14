@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent;
         if ("Admin".equalsIgnoreCase(role)) {
-            intent = new Intent(MainActivity.this, AdminActivity.class);
+            intent = new Intent(MainActivity.this, statistiques.class);
         } else if ("Teacher".equalsIgnoreCase(role)) {
             intent = new Intent(MainActivity.this, TeacherActivity.class);
         } else if ("Agent".equalsIgnoreCase(role)) {
