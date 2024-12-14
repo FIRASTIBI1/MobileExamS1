@@ -2,6 +2,9 @@ import React from "react";
 import { Container, AppBar, Toolbar, Typography, Box } from "@mui/material";
 import UserList from "./UserList";
 import AddUserForm from "./AddUserForm";
+import AddSalleEmploi from "./AddSalleEmploi"; // Import the new AddSalleEmploi component
+import DeleteUser from "./DeleteUser"; // Import the DeleteUser component
+import ClaimsList from "./ClaimsList";
 
 const Dashboard = () => {
   return (
@@ -16,6 +19,15 @@ const Dashboard = () => {
       </Box>
       <Box my={4}>
         <AddUserForm />
+      </Box>
+      <Box my={4}>
+        <AddSalleEmploi /> {/* Add the AddSalleEmploi component */}
+      </Box>
+      <Box my={4}>
+        <DeleteUser /> {/* Add the DeleteUser component */}
+      </Box>
+      <Box my={4}>
+        <ClaimsList />
       </Box>
     </Container>
   );

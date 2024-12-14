@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { signInWithEmailAndPassword } from "../firebase";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 // Validation schema with Yup
@@ -34,10 +35,23 @@ const Login = () => {
         values.email,
         values.password
       );
-      console.log("User signed in:", userCredential.user);
+      const user = userCredential.user;
 
-      // Redirect to Dashboard on success
-      navigate("/dashboard");
+      // Retrieve the role from Firestore
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        if (userData.role === "Admin") {
+          console.log("User signed in as Admin:", user);
+          navigate("/dashboard"); // Redirect to Dashboard if user is admin
+        } else {
+          setFieldError("password", "Access restricted to Admin users only");
+          console.error("Non-admin access attempt by:", user.email);
+        }
+      } else {
+        setFieldError("email", "User role not found");
+        console.error("User document not found in Firestore");
+      }
     } catch (error) {
       console.error("Error signing in:", error.message);
       setFieldError("password", "Incorrect email or password");
